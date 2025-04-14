@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
 import java.util.HashSet;
 import java.util.Iterator;
 
@@ -308,6 +309,55 @@ public class AccountManager implements ICustomDefine {
 			System.out.println("[예외] 파일없음");
 		} catch(IOException e) {
 			System.out.println("[예외] 뭔가없음");
+		}
+	}
+	
+	public void autoSave(PrintWriter out){
+		for(Account acc : myAccount) {
+			if(acc instanceof NormalAccount) {
+				NormalAccount normal = (NormalAccount) acc;
+				out.println("-----------------------------");
+				out.println("계좌번호> " + normal.getAccountNum());
+				out.println("고객이름> " + normal.getName());
+				out.println("잔고> " + normal.getMyMoney());
+				out.println("기본이자> " + normal.getInter() +"%");
+				out.println("-----------------------------");
+			}
+			else if (acc instanceof HighCreditAccount) {
+				HighCreditAccount high = (HighCreditAccount) acc;
+				out.println("-----------------------------");
+				out.println("계좌번호> " + high.getAccountNum());
+				out.println("고객이름> " + high.getName());
+				out.println("잔고> " + high.getMyMoney());
+				out.println("기본이자> " + high.getInter() +"%");
+				out.println("신용등급> " + high.getCredit());
+				out.println("-----------------------------");
+			}
+		}
+	}
+	
+	public void autoSaveOn(AutoSaver t) {
+		System.out.println("1.자동저장On, 2.자동저장Off");
+		int auto = scan.nextInt();
+		if(auto == 1) {
+			if(t.isAlive()) {
+				System.out.println("이미 자동저장이 실행중입니다.");
+			}
+			else {
+				t.setDaemon(true);
+				t.start();
+			}
+		}
+		else if (auto == 2) {
+			if(t.isAlive()) {
+				t.interrupt();
+			}
+			else {
+				System.out.println("이미 자동저장이 실행중이 아닙니다.");
+			}
+		}
+		else {
+			System.out.println("잘못된 입력입니다.");
 		}
 	}
 }
