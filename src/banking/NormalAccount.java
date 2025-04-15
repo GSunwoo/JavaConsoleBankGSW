@@ -2,7 +2,7 @@ package banking;
 
 public class NormalAccount extends Account {
 	private int inter; // 이자율
-
+	private double calInter = inter*0.01 + 1;
 	public NormalAccount(String accountNum, String name, int myMoney, int inter) {
 		super(accountNum, name, myMoney);
 		this.inter = inter;
@@ -19,5 +19,9 @@ public class NormalAccount extends Account {
 	public int getInter() {
 		return inter;
 	}
-
+	
+	public double getCalInter() {
+		return calInter;
+	}
+	
 }

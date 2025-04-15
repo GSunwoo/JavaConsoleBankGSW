@@ -3,6 +3,7 @@ package banking;
 public class HighCreditAccount extends Account implements ICustomDefine{
 	private int inter;
 	private char credit;
+	private double calInter = inter*0.01 + this.getGradeInter() + 1;
 	
 	public HighCreditAccount(String accountNum, String name, int myMoney, int inter, char credit) {
 		super(accountNum, name, myMoney);
@@ -21,6 +22,10 @@ public class HighCreditAccount extends Account implements ICustomDefine{
 	
 	public int getInter() {
 		return inter;
+	}
+	
+	public double getCalInter() {
+		return calInter;
 	}
 	
 	public char getCredit() {

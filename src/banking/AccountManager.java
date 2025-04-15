@@ -162,14 +162,14 @@ public class AccountManager implements ICustomDefine {
 			double calMoney = nowAcc.getMyMoney();
 			if(nowAcc instanceof NormalAccount) {
 				NormalAccount normal = (NormalAccount) nowAcc;
-				double calInter = normal.getInter()*0.01 + 1;
+				double calInter = normal.getCalInter();
 				calMoney = calMoney*calInter + money;
 				int inputMoney = (int) calMoney;
 				normal.setMyMoney(inputMoney);
 			}
 			else if(nowAcc instanceof HighCreditAccount) {
 				HighCreditAccount high = (HighCreditAccount) nowAcc;
-				double calInter = high.getInter()*0.01 + high.getGradeInter() + 1;
+				double calInter = high.getCalInter();
 				calMoney = calMoney*calInter + money;
 				int inputMoney = (int) calMoney;
 				high.setMyMoney(inputMoney);
