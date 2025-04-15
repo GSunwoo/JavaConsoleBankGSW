@@ -34,16 +34,18 @@ public class AccountManager {
 			try {
 				System.out.print("선택>> ");
 				int choice = ICustomDefine.scan.nextInt();
-				ICustomDefine.scan.nextLine();
 				if(choice!=1 && choice!=2) {
 					throw new OneTwoException();
 				}
+				ICustomDefine.scan.nextLine();
 				return choice;
 				
 			} catch (OneTwoException e) {
 				e.printEx();
+				
 			} catch (Exception e) {
 				System.out.println("[예외발생] 정수를 입력하세요.");
+				ICustomDefine.scan.nextLine();
 			}	
 		}	
 	}
@@ -71,7 +73,7 @@ public class AccountManager {
 			System.out.println("초기잔고 입력이 잘못되었습니다");
 			System.out.println(": 음의 정수입력");
 		}
-		if(myMoney%500!=0) {
+		if(myMoney%500!=0 || myMoney == 0) {
 			System.out.println("초기잔고 입력이 잘못되었습니다");
 			System.out.println(": 500원단위로 입금가능");
 		}
@@ -147,7 +149,7 @@ public class AccountManager {
 			return;
 		}
 		
-		if(money%500!=0) {
+		if(money%500!=0 || money == 0) {
 			System.out.println("500원 단위로 입금가능합니다.");
 			return;
 		}
@@ -180,7 +182,7 @@ public class AccountManager {
 			return;
 		} // 음수 출금 불가능
 		
-		if(money%1000!=0) { 
+		if(money%1000!=0 || money == 0) { 
 			System.out.println("1000원 단위로 출금가능합니다.");
 			return;
 		} // 1000원 단위 출금
