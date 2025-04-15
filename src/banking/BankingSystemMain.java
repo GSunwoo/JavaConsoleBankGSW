@@ -10,7 +10,8 @@ public class BankingSystemMain {
 		System.out.println("4. 계좌정보출력");
 		System.out.println("5. 계좌정보삭제");
 		System.out.println("6. 저장옵션");
-		System.out.println("7. 프로그램 종료");
+		System.out.println("7. 계좌검색");
+		System.out.println("8. 프로그램 종료");
 		System.out.print("메뉴선택>>> ");
 	}
 	
@@ -18,7 +19,7 @@ public class BankingSystemMain {
 		try {
 			int choice = ICustomDefine.scan.nextInt();
 			ICustomDefine.scan.nextLine();
-			if(choice>7||choice<1) {
+			if(choice>8||choice<1) {
 				throw new MenuSelectException();
 			}
 			return choice;
@@ -60,6 +61,9 @@ public class BankingSystemMain {
 				break;
 			case ICustomDefine.AUTO_SAVE: // 자동저장 on/off
 				manager.autoSaveOn();
+				break;
+			case ICustomDefine.SEARCH:	  // 계좌 검색(DB)
+				manager.searchAccInfo();
 				break;
 			case ICustomDefine.EXIT:		// 종료
 				manager.saveAccount();

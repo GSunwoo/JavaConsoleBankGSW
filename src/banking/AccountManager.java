@@ -14,6 +14,8 @@ import java.util.Iterator;
 import banking.jdbc.AccConnection;
 import banking.jdbc.DeleteAcc;
 import banking.jdbc.InsertAcc;
+import banking.jdbc.SelectAcc;
+import banking.jdbc.SelectAllAcc;
 import banking.jdbc.UpdateAcc;
 
 public class AccountManager {
@@ -247,7 +249,19 @@ public class AccountManager {
 			System.out.println("-----------------------------");
 		}
 		System.out.println("전체 계좌 정보가 출력되었습니다");
+		System.out.println("-----------------------------");
+		SelectAllAcc jdbc = new SelectAllAcc(null);
+		jdbc.dbExecute();
+		System.out.println("-----------------------------");
 	}// 전체계좌정보출력
+	
+	public void searchAccInfo() {
+		System.out.print("검색할 계좌번호: ");
+		String searchName = ICustomDefine.scan.nextLine();
+		Account acc = searchAccount(searchName);
+		SelectAcc jdbc = new SelectAcc(acc);
+		jdbc.dbExecute();
+	} // 계좌검색
 	
 	public void deleteAccount() {
 		System.out.print("삭제할 계좌번호:");

@@ -13,7 +13,8 @@ public interface ICustomDefine {
 	int INQUIRE = 4;
 	int DELETE = 5;
 	int AUTO_SAVE = 6;
-	int EXIT = 7;
+	int SEARCH = 7;
+	int EXIT = 8;
 	
 	// 신용등급 별 추가이율
 	double A_GRADE = 0.07;

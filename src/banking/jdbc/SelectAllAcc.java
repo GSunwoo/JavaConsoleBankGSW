@@ -5,9 +5,9 @@ import java.sql.SQLException;
 import banking.Account;
 
 
-public class SelectAcc extends AccConnection{
+public class SelectAllAcc extends AccConnection{
 	
-	public SelectAcc(Account acc) {
+	public SelectAllAcc(Account acc) {
 		super(USER, PW, acc);
 	}
 	
@@ -19,7 +19,7 @@ public class SelectAcc extends AccConnection{
 		try {
 			stmt = con.createStatement();
 			
-			query = "select * from banking where accNum=" + acc.getAccountNum();
+			query = "select * from banking order by id";
 			
 			//쿼리문을 실행한 후 결과는 ResultSet으로 반환 
 			rs = stmt.executeQuery(query);
@@ -31,7 +31,7 @@ public class SelectAcc extends AccConnection{
 				String name = rs.getString("name");
 				String balance = rs.getString("balance");
 				String interestRate = rs.getString("interestRate");
-				if(!rs.getString("creditGrade").equals("default")) {
+				if(rs.getString("creditGrade").equals("default")) {
 					String creditGrade = rs.getString("creditGrade");
 					System.out.printf("계좌번호> %s\n고객이름> %s\n잔고> %s\n이자율> %s\n신용등급> %s\n",
 							accNum, name, balance, interestRate, creditGrade);
