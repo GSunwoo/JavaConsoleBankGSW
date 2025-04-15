@@ -16,23 +16,19 @@ public class NormalAccount extends Account {
 		System.out.println("고객이름> " + getName());
 		System.out.println("잔고> " + getMyMoney());
 		System.out.println("기본이자> " + inter +"%");
-	}
-
-	public int getInter() {
-		return inter;
-	}
+	} // 계좌정보 출력
 	
 	public double getCalInter() {
 		double calInter = inter*0.01 + 1;
 		return calInter;
-	}
+	} // 이율 계산
 	
 	@Override
 	public int getNewBalance(int money) {
 		double newBDouble = this.getCalInter()*super.getMyMoney() + money;
 		int newBalance = (int) newBDouble;
 		return newBalance;
-	}
+	} // 입금 후 잔고(이율계산 적용)
 	
 	@Override
 	public void autoS(PrintWriter out) {
@@ -43,5 +39,10 @@ public class NormalAccount extends Account {
 		out.println("기본이자> " + this.getInter() +"%");
 		out.println("-----------------------------");
 		
+	} // 쓰레드 자동저장
+	
+	
+	public int getInter() {
+		return inter;
 	}
 }

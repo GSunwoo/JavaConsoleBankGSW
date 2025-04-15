@@ -25,7 +25,7 @@ public class BankingSystemMain implements ICustomDefine {
 			}
 			return choice;
 		} catch(MenuSelectException e){
-			System.out.println("[예외발생] 1~7사이의 정수를 입력해주세요.");
+			e.printEx();
 		} catch(Exception e) {
 			System.out.println("[예외발생] 메뉴선택은 숫자만 입력해주세요.");
 			scan.nextLine();

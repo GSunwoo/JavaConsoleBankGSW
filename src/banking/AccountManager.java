@@ -158,12 +158,12 @@ public class AccountManager implements ICustomDefine {
 		
 		Account nowAcc = searchAccount(acc);	// 계좌 검색
 		
-		if(nowAcc!=null) {
-			int calMoney = nowAcc.getNewBalance(money);
+		if(nowAcc!=null) {	// 계좌검색 성공
+			int calMoney = nowAcc.getNewBalance(money); // 변화금액 계산
 			nowAcc.setMyMoney(calMoney);
 			System.out.println(money+"원 입금이 완료되었습니다.");
 			System.out.println("현재 잔고> " + nowAcc.getMyMoney());	
-		}	// 이율계산
+		}
 		else {
 			System.out.println(acc + " 계좌가 없습니다.");
 			return;
@@ -182,16 +182,16 @@ public class AccountManager implements ICustomDefine {
 		if(money<0) {
 			System.out.println("양의 정수를 입력하세요.");
 			return;
-		}
+		} // 음수 출금 불가능
 		
-		if(money%1000!=0) {
+		if(money%1000!=0) { 
 			System.out.println("1000원 단위로 출금가능합니다.");
 			return;
-		}
+		} // 1000원 단위 출금
 		
 		Account nowAcc = searchAccount(acc);
 		
-		if(nowAcc!=null) {
+		if(nowAcc!=null) { // 계좌검색 성공
 			if((nowAcc.getMyMoney()-money)<0) {
 				System.out.println("잔고가 부족합니다.");
 				return;
@@ -225,6 +225,7 @@ public class AccountManager implements ICustomDefine {
 		boolean isDelete = false;
 		
 		for(Account acc : myAccount) {
+			// 계좌번호를 기준으로 판단
 			if(deleteName.equals(acc.getAccountNum())) {
 				myAccount.remove(acc);
 				isDelete = true;
@@ -238,26 +239,24 @@ public class AccountManager implements ICustomDefine {
 		else {
 			System.out.println(">>삭제된 데이터가 없습니다.");
 		}
-	}
+	}	// 계좌 삭제
 	
 	public void saveAccount() {
 		try {
 			// 인스턴스를 파일로 저장하기 위해 출력스트림 생성
 			ObjectOutputStream out = new ObjectOutputStream
 					(new FileOutputStream("src/resource/AccountInfo.obj"));
-			
 			for(Account acc : myAccount) {
 				out.writeObject(acc);
 			}
 			
 			out.close();
-
 		} catch(FileNotFoundException e) {
 			System.out.println("[예외] 파일없음");
 		} catch(IOException e) {
 			System.out.println("[예외] 뭔가없음");
 		}
-	}
+	} // obj 파일로 데이터 보내기
 	
 	public void loadAccount() {
 		try {
@@ -287,13 +286,13 @@ public class AccountManager implements ICustomDefine {
 		} catch(IOException e) {
 			System.out.println("[예외] 뭔가없음");
 		}
-	} //loadAccount()
+	} // obj 파일 데이터 불러오기
 	
 	public void autoSave(PrintWriter out){
 		for(Account acc : myAccount) {
 			acc.autoS(out);
 		}
-	}
+	} // 자동저장
 	
 	public void autoSaveOn(AutoSaver t) {
 		System.out.println("1.자동저장On, 2.자동저장Off");
@@ -318,5 +317,5 @@ public class AccountManager implements ICustomDefine {
 		else {
 			System.out.println("잘못된 입력입니다.");
 		}
-	}
+	} // 자동저장 on/off
 }
