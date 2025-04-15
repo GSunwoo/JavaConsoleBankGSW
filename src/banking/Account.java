@@ -1,5 +1,6 @@
 package banking;
 
+import java.io.PrintWriter;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -32,6 +33,10 @@ public abstract class Account implements Serializable{
 
 	
 	public abstract void showInfo(); // 계좌정보 출력
+	
+	public abstract int getNewBalance(int m);
+	
+	public abstract void autoS(PrintWriter out);
 
 	@Override
 	public int hashCode() {

@@ -1,9 +1,10 @@
 package banking;
 
+import java.io.PrintWriter;
+
 public class HighCreditAccount extends Account implements ICustomDefine{
 	private int inter;
 	private char credit;
-	private double calInter = inter*0.01 + this.getGradeInter() + 1;
 	
 	public HighCreditAccount(String accountNum, String name, int myMoney, int inter, char credit) {
 		super(accountNum, name, myMoney);
@@ -25,6 +26,7 @@ public class HighCreditAccount extends Account implements ICustomDefine{
 	}
 	
 	public double getCalInter() {
+		double calInter = inter*0.01 + this.getGradeInter() + 1;
 		return calInter;
 	}
 	
@@ -45,5 +47,24 @@ public class HighCreditAccount extends Account implements ICustomDefine{
 		else {
 			return 0;
 		}
+	}
+	
+	@Override
+	public int getNewBalance(int money) {
+		double newBDouble = this.getCalInter()*super.getMyMoney() + money;
+		int newBalance = (int) newBDouble;
+		return newBalance;
+	}
+	
+	
+	@Override
+	public void autoS(PrintWriter out) {
+		out.println("-----------------------------");
+		out.println("계좌번호> " + this.getAccountNum());
+		out.println("고객이름> " + this.getName());
+		out.println("잔고> " + this.getMyMoney());
+		out.println("기본이자> " + this.getInter() +"%");
+		out.println("신용등급> " + this.getCredit());
+		out.println("-----------------------------");
 	}
 }

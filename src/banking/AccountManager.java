@@ -159,29 +159,17 @@ public class AccountManager implements ICustomDefine {
 		Account nowAcc = searchAccount(acc);	// 계좌 검색
 		
 		if(nowAcc!=null) {
-			double calMoney = nowAcc.getMyMoney();
-			if(nowAcc instanceof NormalAccount) {
-				NormalAccount normal = (NormalAccount) nowAcc;
-				double calInter = normal.getCalInter();
-				calMoney = calMoney*calInter + money;
-				int inputMoney = (int) calMoney;
-				normal.setMyMoney(inputMoney);
-			}
-			else if(nowAcc instanceof HighCreditAccount) {
-				HighCreditAccount high = (HighCreditAccount) nowAcc;
-				double calInter = high.getCalInter();
-				calMoney = calMoney*calInter + money;
-				int inputMoney = (int) calMoney;
-				high.setMyMoney(inputMoney);
-			}// 이율계산
-		}
+			int calMoney = nowAcc.getNewBalance(money);
+			nowAcc.setMyMoney(calMoney);
+			System.out.println(money+"원 입금이 완료되었습니다.");
+			System.out.println("현재 잔고> " + nowAcc.getMyMoney());	
+		}	// 이율계산
 		else {
 			System.out.println(acc + " 계좌가 없습니다.");
 			return;
 		}
-		System.out.println(money+"원 입금이 완료되었습니다.");
-		System.out.println("현재 잔고> " + nowAcc.getMyMoney());	
-	}// 입    금
+		
+	}// 입금
 	
 	public void withdrawMoney() {
 		System.out.println("계좌번호와 출금할 금액을 입력하세요.");
@@ -215,7 +203,7 @@ public class AccountManager implements ICustomDefine {
 		else {
 			System.out.println(acc + " 계좌가 없습니다.");
 		}
-	}// 출    금
+	}// 출금
 	
 	public void showAccInfo() {
 		Iterator itr = myAccount.iterator();
@@ -223,19 +211,8 @@ public class AccountManager implements ICustomDefine {
 			System.out.println("-----------------------------");
 			Account acc = (Account) itr.next();
 			
-			System.out.println("계좌번호> " + acc.getAccountNum());
-			System.out.println("고객이름> " + acc.getName());
-			System.out.println("잔고> " + acc.getMyMoney());
+			acc.showInfo();
 			
-			if(acc instanceof NormalAccount) {
-				NormalAccount noAcc = (NormalAccount) acc;
-				System.out.println("기본이자> " + noAcc.getInter()+"%");
-			}
-			else if (acc instanceof HighCreditAccount) {
-				HighCreditAccount hiAcc = (HighCreditAccount) acc;
-				System.out.println("기본이자> " + hiAcc.getInter()+"%");
-				System.out.println("신용등급> " + hiAcc.getCredit());
-			}
 			System.out.println("-----------------------------");
 		}
 		System.out.println("전체 계좌 정보가 출력되었습니다");
@@ -310,29 +287,11 @@ public class AccountManager implements ICustomDefine {
 		} catch(IOException e) {
 			System.out.println("[예외] 뭔가없음");
 		}
-	}
+	} //loadAccount()
 	
 	public void autoSave(PrintWriter out){
 		for(Account acc : myAccount) {
-			if(acc instanceof NormalAccount) {
-				NormalAccount normal = (NormalAccount) acc;
-				out.println("-----------------------------");
-				out.println("계좌번호> " + normal.getAccountNum());
-				out.println("고객이름> " + normal.getName());
-				out.println("잔고> " + normal.getMyMoney());
-				out.println("기본이자> " + normal.getInter() +"%");
-				out.println("-----------------------------");
-			}
-			else if (acc instanceof HighCreditAccount) {
-				HighCreditAccount high = (HighCreditAccount) acc;
-				out.println("-----------------------------");
-				out.println("계좌번호> " + high.getAccountNum());
-				out.println("고객이름> " + high.getName());
-				out.println("잔고> " + high.getMyMoney());
-				out.println("기본이자> " + high.getInter() +"%");
-				out.println("신용등급> " + high.getCredit());
-				out.println("-----------------------------");
-			}
+			acc.autoS(out);
 		}
 	}
 	
