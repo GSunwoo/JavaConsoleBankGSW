@@ -22,10 +22,10 @@ public class HighCreditAccount extends Account {
 	} // 계좌정보 출력
 	
 	@Override
-	public int getNewBalance(int money) {
+	public void getNewBalance(int money) {
 		double newBDouble = this.getCalInter()*super.getMyMoney() + money;
 		int newBalance = (int) newBDouble;
-		return newBalance;
+		super.setMyMoney(newBalance);
 	} // 이율 계산
 	
 	
@@ -67,4 +67,9 @@ public class HighCreditAccount extends Account {
 			return 0;
 		}
 	} // 신용등급 별 이율 반환
+	
+	@Override
+	public String getCreditGrade() {
+		return Character.toString(credit);
+	}
 }

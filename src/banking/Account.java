@@ -32,11 +32,16 @@ public abstract class Account implements Serializable{
 	}
 
 	
+	public abstract int getInter();
+	
 	public abstract void showInfo(); // 계좌정보 출력
 	
-	public abstract int getNewBalance(int m); // 입금 후 잔고(이율계산 적용)
+	public abstract void getNewBalance(int m); // 입금 후 잔고(이율계산 적용)
 	
 	public abstract void autoS(PrintWriter out); // 쓰레드 자동저장
+	
+	public abstract String getCreditGrade();
+	
 
 	@Override
 	public int hashCode() {

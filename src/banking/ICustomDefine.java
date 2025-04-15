@@ -3,6 +3,7 @@ package banking;
 import java.util.Scanner;
 
 public interface ICustomDefine {
+	// 스캐너
 	Scanner scan = new Scanner(System.in);
 	
 	// 메인함수 선택지

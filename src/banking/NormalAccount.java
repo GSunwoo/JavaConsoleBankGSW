@@ -24,10 +24,10 @@ public class NormalAccount extends Account {
 	} // 이율 계산
 	
 	@Override
-	public int getNewBalance(int money) {
+	public void getNewBalance(int money) {
 		double newBDouble = this.getCalInter()*super.getMyMoney() + money;
 		int newBalance = (int) newBDouble;
-		return newBalance;
+		super.setMyMoney(newBalance);
 	} // 입금 후 잔고(이율계산 적용)
 	
 	@Override
@@ -41,8 +41,14 @@ public class NormalAccount extends Account {
 		
 	} // 쓰레드 자동저장
 	
-	
+
+	@Override
 	public int getInter() {
 		return inter;
+	}
+	
+	@Override
+	public String getCreditGrade() {
+		return "default";
 	}
 }

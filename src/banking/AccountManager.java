@@ -11,6 +11,9 @@ import java.io.PrintWriter;
 import java.util.HashSet;
 import java.util.Iterator;
 
+import banking.jdbc.AccConnection;
+import banking.jdbc.InsertAcc;
+
 public class AccountManager {
 	
 	private HashSet<Account> myAccount;
@@ -72,16 +75,26 @@ public class AccountManager {
 		if(myMoney<0) {
 			System.out.println("초기잔고 입력이 잘못되었습니다");
 			System.out.println(": 음의 정수입력");
+			return;
 		}
 		if(myMoney%500!=0 || myMoney == 0) {
 			System.out.println("초기잔고 입력이 잘못되었습니다");
 			System.out.println(": 500원단위로 입금가능");
+			return;
 		}
 		
 		Account newAcc = null;
 		
 		if(choice==1) {
-			newAcc = new NormalAccount(accNum, myName, myMoney, basicInter);
+			System.out.println("***특판계좌 여부선택***");
+			System.out.println("1. Yes 2. No");
+			int spCho = choiceOneTwo();
+			if(spCho==1) {
+				newAcc = new SpacialAccount(accNum, myName, myMoney, basicInter);
+			}
+			else {
+				newAcc = new NormalAccount(accNum, myName, myMoney, basicInter);
+			}
 		}
 		else if(choice==2) {
 			char credit = 'F';
@@ -112,6 +125,8 @@ public class AccountManager {
 		
 		if(myAccount.add(newAcc)) { // 성공했을 경우 개설 완료 메세지
 			System.out.println("계좌개설완료");
+			AccConnection jdbc = new InsertAcc(newAcc);
+			jdbc.dbExecute();
 		}
 		else { // 실패의 경우 중복이 있다고 판단
 			while(true) {
@@ -121,6 +136,8 @@ public class AccountManager {
 					myAccount.remove(newAcc); // 기존의 계좌와 새로운 계좌가 같다고 판별이 났기 때문에 newAcc로 삭제하면 기존의 계좌가 삭제됨
 					myAccount.add(newAcc); // 새로운 계좌를 set에 추가
 					System.out.println("계좌 덮어쓰기 완료");
+					AccConnection jdbc = new InsertAcc(newAcc);
+					jdbc.dbExecute();
 					break;
 				} // y를 선택할 경우 기존 계좌를 삭제한 다음 새로운 계좌 추가
 				else if (yn.equals("n") || yn.equals("N")) {
@@ -154,11 +171,10 @@ public class AccountManager {
 			return;
 		}
 		
-		Account nowAcc = searchAccount(acc);	// 계좌 검색
+		Account nowAcc = searchAccount(acc); // 계좌 검색
 		
 		if(nowAcc!=null) {	// 계좌검색 성공
-			int calMoney = nowAcc.getNewBalance(money); // 변화금액 계산
-			nowAcc.setMyMoney(calMoney);
+			nowAcc.getNewBalance(money); // 변화금액 계산
 			System.out.println(money+"원 입금이 완료되었습니다.");
 			System.out.println("현재 잔고> " + nowAcc.getMyMoney());	
 		}
@@ -191,8 +207,19 @@ public class AccountManager {
 		
 		if(nowAcc!=null) { // 계좌검색 성공
 			if((nowAcc.getMyMoney()-money)<0) {
-				System.out.println("잔고가 부족합니다.");
-				return;
+				System.out.println("잔고가 부족합니다. 잔액을 모두 출금하시겠습니까?");
+				System.out.println("1.Yes 2. No");
+				int choice = choiceOneTwo();
+				if(choice == 1) {
+					System.out.println("남은 금액을 모두 출금합니다.");
+					money = nowAcc.getMyMoney();
+					nowAcc.setMyMoney(0);
+				}
+				else if(choice == 2) {
+					System.out.println("출금을 취소합니다.");
+					return;
+				}
+				
 			}
 			nowAcc.setMyMoney(nowAcc.getMyMoney() - money);
 			System.out.println(money + "원 출금이 완료되었습니다.");

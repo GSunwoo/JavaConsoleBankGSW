@@ -4,14 +4,14 @@ public class BankingSystemMain {
 	
 	public static void showMenu() {
 		System.out.println("######## 메뉴를 입력하세요 #########");
-		System.out.println("1. 계좌개설 ");
+		System.out.println("1. 계좌개설");
 		System.out.println("2. 입금");
 		System.out.println("3. 출금");
 		System.out.println("4. 계좌정보출력");
 		System.out.println("5. 계좌정보삭제");
 		System.out.println("6. 저장옵션");
 		System.out.println("7. 프로그램 종료");
-		System.out.print("메뉴선택>>>");
+		System.out.print("메뉴선택>>> ");
 	}
 	
 	public static int menuChoice() {
@@ -38,6 +38,7 @@ public class BankingSystemMain {
 		manager.loadAccount();
 		
 		while(true) {
+			
 			showMenu();
 			
 			int choice = menuChoice();
@@ -65,7 +66,7 @@ public class BankingSystemMain {
 				System.out.println("프로그램 종료");
 				return;
 			}////switch 끝
-		}
+		} // while
 	}
 }
 
