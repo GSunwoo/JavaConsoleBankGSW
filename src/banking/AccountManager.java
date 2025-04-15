@@ -216,10 +216,10 @@ public class AccountManager {
 		}
 		
 		if(isDelete) {
-			System.out.println(">>삭제되었습니다");
+			System.out.println(">> 삭제되었습니다");
 		}
 		else {
-			System.out.println(">>삭제된 데이터가 없습니다.");
+			System.out.println(">> 해당 계좌가 없습니다.");
 		}
 	}	// 계좌 삭제
 	
@@ -286,6 +286,7 @@ public class AccountManager {
 			else {
 				t.setDaemon(true);
 				t.start();
+				System.out.println("자동저장 On");
 			}
 		}
 		else if (auto == 2) {
