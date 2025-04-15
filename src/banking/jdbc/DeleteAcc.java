@@ -15,9 +15,9 @@ public class DeleteAcc extends AccConnection {
 	public void dbExecute() {
 		try {
 			
-			csmt = con.prepareCall("{call ShopDeleteGoods(?,?)}");
+			csmt = con.prepareCall("{call DeleteAccount(?,?)}");
 			//인파라미터 설정 : 사용자로부터 입력받은 값을 세팅 
-			csmt.setString(1, inputValue("삭제할 계좌번호"));
+			csmt.setString(1, acc.getAccountNum());
 
 			//아웃파라미터 설정 : 반환값에 대한 자료형만 설정하면 된다. 
 			csmt.registerOutParameter(2, Types.NUMERIC);
@@ -28,7 +28,7 @@ public class DeleteAcc extends AccConnection {
 			if(affected==0) 
 				System.out.println("오류발생:삭제실패");
 			else 
-				System.out.println(affected +"행 입력성공");
+				System.out.println(affected +"행 삭제성공");
 		}
 		catch(SQLException e) {
 			e.printStackTrace();

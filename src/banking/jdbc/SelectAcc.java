@@ -19,11 +19,7 @@ public class SelectAcc extends AccConnection{
 		try {
 			stmt = con.createStatement();
 			
-			query = "select \r\n"
-					+ "    g_idx, goods_name, goods_price, \r\n"
-					+ "    to_char(regidate, 'yyyy-mm-dd hh24:mi') d1, p_code \r\n"
-					+ "from sh_goods \r\n"
-					+ "where goods_name like '%"+inputValue("검색할 상품명")+"%'";
+			query = "";
 			
 			//쿼리문을 실행한 후 결과는 ResultSet으로 반환 
 			rs = stmt.executeQuery(query);

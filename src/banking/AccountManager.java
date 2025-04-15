@@ -12,11 +12,14 @@ import java.util.HashSet;
 import java.util.Iterator;
 
 import banking.jdbc.AccConnection;
+import banking.jdbc.DeleteAcc;
 import banking.jdbc.InsertAcc;
+import banking.jdbc.UpdateAcc;
 
 public class AccountManager {
 	
 	private HashSet<Account> myAccount;
+	
 	AutoSaver t;
 	
 	public AccountManager() {
@@ -125,7 +128,7 @@ public class AccountManager {
 		
 		if(myAccount.add(newAcc)) { // 성공했을 경우 개설 완료 메세지
 			System.out.println("계좌개설완료");
-			AccConnection jdbc = new InsertAcc(newAcc);
+			InsertAcc jdbc = new InsertAcc(newAcc);
 			jdbc.dbExecute();
 		}
 		else { // 실패의 경우 중복이 있다고 판단
@@ -176,7 +179,9 @@ public class AccountManager {
 		if(nowAcc!=null) {	// 계좌검색 성공
 			nowAcc.getNewBalance(money); // 변화금액 계산
 			System.out.println(money+"원 입금이 완료되었습니다.");
-			System.out.println("현재 잔고> " + nowAcc.getMyMoney());	
+			System.out.println("현재 잔고> " + nowAcc.getMyMoney());
+			UpdateAcc jdbc = new UpdateAcc(nowAcc);
+			jdbc.dbExecute();
 		}
 		else {
 			System.out.println(acc + " 계좌가 없습니다.");
@@ -213,7 +218,6 @@ public class AccountManager {
 				if(choice == 1) {
 					System.out.println("남은 금액을 모두 출금합니다.");
 					money = nowAcc.getMyMoney();
-					nowAcc.setMyMoney(0);
 				}
 				else if(choice == 2) {
 					System.out.println("출금을 취소합니다.");
@@ -224,6 +228,8 @@ public class AccountManager {
 			nowAcc.setMyMoney(nowAcc.getMyMoney() - money);
 			System.out.println(money + "원 출금이 완료되었습니다.");
 			System.out.println("현재 잔고> " + nowAcc.getMyMoney());
+			UpdateAcc jdbc = new UpdateAcc(nowAcc);
+			jdbc.dbExecute();
 		}
 		else {
 			System.out.println(acc + " 계좌가 없습니다.");
@@ -252,6 +258,8 @@ public class AccountManager {
 		for(Account acc : myAccount) {
 			// 계좌번호를 기준으로 판단
 			if(deleteName.equals(acc.getAccountNum())) {
+				DeleteAcc jdbc = new DeleteAcc(searchAccount(deleteName));
+				jdbc.dbExecute();
 				myAccount.remove(acc);
 				isDelete = true;
 				break;

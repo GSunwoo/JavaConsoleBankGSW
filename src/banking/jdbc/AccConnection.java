@@ -53,30 +53,11 @@ public class AccConnection implements IConnect{
 			if(stmt!=null) stmt.close();
 			if(psmt!=null) psmt.close();
 			if(csmt!=null) csmt.close();
-			System.out.println("DB 자원 반납");
 		} catch (Exception e) {
 			System.out.println("DB 자원 반납시 예외발생");
 			e.printStackTrace();
 		}
 		
-	}
-	
-	// 사용자로부터 입력을 받기 위해 정의
-	@Override
-	public String inputValue(String title) {
-		Scanner sc = new Scanner(System.in);
-		System.out.print(title + "을(를) 입력(exit->종료): ");
-		String inputStr = sc.nextLine();
-		
-		if("EXIT".equalsIgnoreCase(inputStr)) {
-			System.out.println("프로그램을 종료합니다.");
-			// 자원반납
-			dbClose();
-			// 프로그램 자체를 종료시킨다.
-			System.exit(0);
-		}
-		// 종료가 아니라면 입력한 값을 반환한다.
-		return inputStr;
 	}
 	
 }

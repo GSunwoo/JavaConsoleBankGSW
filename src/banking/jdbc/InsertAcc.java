@@ -7,8 +7,6 @@ import banking.Account;
 
 public class InsertAcc extends AccConnection {
 	
-	Account acc;
-	
 	public InsertAcc(Account acc) {
 		super(USER, PW, acc);
 	}
