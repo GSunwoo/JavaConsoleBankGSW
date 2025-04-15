@@ -34,7 +34,6 @@ public class BankingSystemMain {
 	public static void main(String[] args) {
 		
 		AccountManager manager = new AccountManager();
-		AutoSaver auto = new AutoSaver(manager);
 		
 		manager.loadAccount();
 		
@@ -55,17 +54,14 @@ public class BankingSystemMain {
 			case ICustomDefine.INQUIRE:	// 계좌정보 출력
 				manager.showAccInfo();
 				break;
-			case ICustomDefine.DELETE:
+			case ICustomDefine.DELETE:  // 계좌정보 삭제
 				manager.deleteAccount();
 				break;
-			case ICustomDefine.AUTO_SAVE:
-				manager.autoSaveOn(auto);
+			case ICustomDefine.AUTO_SAVE: // 자동저장 on/off
+				manager.autoSaveOn();
 				break;
 			case ICustomDefine.EXIT:		// 종료
 				manager.saveAccount();
-				if(auto.isAlive()) {
-					auto.interrupt();
-				}
 				System.out.println("프로그램 종료");
 				return;
 			}////switch 끝

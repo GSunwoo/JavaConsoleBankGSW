@@ -14,7 +14,8 @@ import java.util.Iterator;
 public class AccountManager {
 	
 	private HashSet<Account> myAccount;
-
+	AutoSaver t;
+	
 	public AccountManager() {
 		myAccount = new HashSet<Account>();
 	}
@@ -94,26 +95,26 @@ public class AccountManager {
 		
 		if(newAcc==null) return; // newAcc가 생성되지 않았을 경우 메서드 종료
 		
-		if(myAccount.add(newAcc)) {
+		if(myAccount.add(newAcc)) { // 성공했을 경우 개설 완료 메세지
 			System.out.println("계좌개설완료");
 		}
-		else {
+		else { // 실패의 경우 중복이 있다고 판단
 			while(true) {
 				System.out.print("중복계좌발견됨. 덮어쓸까요?(y / n)");
 				String yn = ICustomDefine.scan.nextLine();
 				if(yn.equals("y") || yn.equals("Y")) {
-					myAccount.remove(newAcc);
-					myAccount.add(newAcc);
+					myAccount.remove(newAcc); // 기존의 계좌와 새로운 계좌가 같다고 판별이 났기 때문에 newAcc로 삭제하면 기존의 계좌가 삭제됨
+					myAccount.add(newAcc); // 새로운 계좌를 set에 추가
 					System.out.println("계좌 덮어쓰기 완료");
 					break;
-				}
+				} // y를 선택할 경우 기존 계좌를 삭제한 다음 새로운 계좌 추가
 				else if (yn.equals("n") || yn.equals("N")) {
 					System.out.println("기존 계좌를 유지합니다.");
 					break;
-				}
+				} // n을 선택할 경우 기존 계좌를 유지하므로 메세지만 출력
 				else {
 					System.out.println("y 또는 n을 입력하세요.");
-				}
+				} // 잘못된 입력의 경우 while을 벗어나지 못함
 			}
 			
 		} // 중복계좌 처리
@@ -276,10 +277,19 @@ public class AccountManager {
 		}
 	} // 자동저장
 	
-	public void autoSaveOn(AutoSaver t) {
+	public void autoSaveOn() {
+		System.out.println("***자동저장을 시작합니다***");
+		try {
+			System.out.printf("Thread[%s, %d, %s]\n", t.getName(), t.getPriority(), t.getThreadGroup().getName());
+		} catch (Exception e) {
+			System.out.println("AutoSaver 예외발생");
+		}
 		System.out.println("1.자동저장On, 2.자동저장Off");
-		int auto = ICustomDefine.scan.nextInt();
-		if(auto == 1) {
+		int autoOnOff = ICustomDefine.scan.nextInt();
+		if(autoOnOff == 1) {
+			if(t==null) {
+				t = new AutoSaver(this);
+			}
 			if(t.isAlive()) {
 				System.out.println("이미 자동저장이 실행중입니다.");
 			}
@@ -289,9 +299,10 @@ public class AccountManager {
 				System.out.println("자동저장 On");
 			}
 		}
-		else if (auto == 2) {
+		else if (autoOnOff == 2) {
 			if(t.isAlive()) {
 				t.interrupt();
+				t = null;
 			}
 			else {
 				System.out.println("이미 자동저장이 실행중이 아닙니다.");
