@@ -1,8 +1,6 @@
 package banking;
 
-import java.util.InputMismatchException;
-
-public class BankingSystemMain implements ICustomDefine {
+public class BankingSystemMain {
 	
 	public static void showMenu() {
 		System.out.println("######## 메뉴를 입력하세요 #########");
@@ -18,8 +16,8 @@ public class BankingSystemMain implements ICustomDefine {
 	
 	public static int menuChoice() {
 		try {
-			int choice = scan.nextInt();
-			scan.nextLine();
+			int choice = ICustomDefine.scan.nextInt();
+			ICustomDefine.scan.nextLine();
 			if(choice>7||choice<1) {
 				throw new MenuSelectException();
 			}
@@ -28,7 +26,7 @@ public class BankingSystemMain implements ICustomDefine {
 			e.printEx();
 		} catch(Exception e) {
 			System.out.println("[예외발생] 메뉴선택은 숫자만 입력해주세요.");
-			scan.nextLine();
+			ICustomDefine.scan.nextLine();
 		}
 		return 0;
 	}
@@ -45,25 +43,25 @@ public class BankingSystemMain implements ICustomDefine {
 			
 			int choice = menuChoice();
 			switch(choice) {
-			case MAKE: //계좌 개설
+			case ICustomDefine.MAKE: //계좌 개설
 				manager.makeAccount();
 				break;
-			case DEPOSIT:	// 입금
+			case ICustomDefine.DEPOSIT:	// 입금
 				manager.depositMoney();
 				break;
-			case WITHDRAW:  // 출금
+			case ICustomDefine.WITHDRAW:  // 출금
 				manager.withdrawMoney();
 				break;
-			case INQUIRE:	// 계좌정보 출력
+			case ICustomDefine.INQUIRE:	// 계좌정보 출력
 				manager.showAccInfo();
 				break;
-			case DELETE:
+			case ICustomDefine.DELETE:
 				manager.deleteAccount();
 				break;
-			case AUTO_SAVE:
+			case ICustomDefine.AUTO_SAVE:
 				manager.autoSaveOn(auto);
 				break;
-			case EXIT:		// 종료
+			case ICustomDefine.EXIT:		// 종료
 				manager.saveAccount();
 				if(auto.isAlive()) {
 					auto.interrupt();

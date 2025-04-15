@@ -2,7 +2,7 @@ package banking;
 
 import java.io.PrintWriter;
 
-public class HighCreditAccount extends Account implements ICustomDefine{
+public class HighCreditAccount extends Account {
 	private int inter;
 	private char credit;
 	
@@ -55,13 +55,13 @@ public class HighCreditAccount extends Account implements ICustomDefine{
 	
 	public double getGradeInter() {
 		if(credit=='A') {
-			return A_GRADE;
+			return ICustomDefine.A_GRADE;
 		}
 		else if(credit=='B') {
-			return B_GRADE;
+			return ICustomDefine.B_GRADE;
 		}
 		else if(credit=='C') {
-			return C_GRADE;
+			return ICustomDefine.C_GRADE;
 		}
 		else {
 			return 0;

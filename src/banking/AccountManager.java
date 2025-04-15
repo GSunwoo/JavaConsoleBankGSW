@@ -11,7 +11,7 @@ import java.io.PrintWriter;
 import java.util.HashSet;
 import java.util.Iterator;
 
-public class AccountManager implements ICustomDefine {
+public class AccountManager {
 	
 	private HashSet<Account> myAccount;
 
@@ -36,22 +36,22 @@ public class AccountManager implements ICustomDefine {
 			System.out.println("1.보통계좌");
 			System.out.println("2.신용신뢰계좌");
 			System.out.print("선택>> ");
-			choice = scan.nextInt();
-			scan.nextLine();
+			choice = ICustomDefine.scan.nextInt();
+			ICustomDefine.scan.nextLine();
 			if (choice == 1 || choice == 2) break;
 			else System.out.println("잘못된 입력입니다.");
 		}
 		
 		System.out.print("계좌번호: ");
-		String accNum = scan.nextLine();
+		String accNum = ICustomDefine.scan.nextLine();
 		System.out.print("고객이름: ");
-		String myName = scan.nextLine();
+		String myName = ICustomDefine.scan.nextLine();
 		System.out.print("잔고: ");
-		int myMoney = scan.nextInt();
-		scan.nextLine();
+		int myMoney = ICustomDefine.scan.nextInt();
+		ICustomDefine.scan.nextLine();
 		System.out.print("기본이자%(정수형태로입력): ");
-		int basicInter = scan.nextInt();
-		scan.nextLine();
+		int basicInter = ICustomDefine.scan.nextInt();
+		ICustomDefine.scan.nextLine();
 		
 		if(myMoney<0) {
 			System.out.println("초기잔고 입력이 잘못되었습니다");
@@ -62,37 +62,16 @@ public class AccountManager implements ICustomDefine {
 			System.out.println(": 500원단위로 입금가능");
 		}
 		
+		Account newAcc = null;
+		
 		if(choice==1) {
-			NormalAccount normal = new NormalAccount(accNum, myName, myMoney, basicInter);
-			if(myAccount.add(normal)) {
-				System.out.println("계좌개설완료");
-			}
-			else {
-				while(true) {
-					System.out.print("중복계좌발견됨. 덮어쓸까요?(y / n)");
-					String yn = scan.nextLine();
-					if(yn.equals("y") || yn.equals("Y")) {
-						myAccount.remove(normal);
-						myAccount.add(normal);
-						System.out.println("계좌 덮어쓰기 완료");
-						break;
-					}
-					else if (yn.equals("n")|| yn.equals("N")) {
-						System.out.println("기존 계좌를 유지합니다.");
-						break;
-					}
-					else {
-						System.out.println("y 또는 n을 입력하세요.");
-					}
-				}
-				
-			}
+			newAcc = new NormalAccount(accNum, myName, myMoney, basicInter);
 		}
 		else if(choice==2) {
 			char credit = 'F';
 			while(true) {
 				System.out.print("신용등급(A,B,C등급): ");
-				String crdStr = scan.nextLine();
+				String crdStr = ICustomDefine.scan.nextLine();
 				
 				if (crdStr.length()!=1) {
 					System.out.println("A, B, C 중 알파벳 하나만 입력하세요.");
@@ -110,41 +89,44 @@ public class AccountManager implements ICustomDefine {
 				}
 			}			
 			
-			HighCreditAccount high = new HighCreditAccount(accNum, myName, myMoney, basicInter, credit);
-			if(myAccount.add(high)) {
-				System.out.println("계좌개설완료");
-			}
-			else {
-				while(true) {
-					System.out.print("중복계좌발견됨. 덮어쓸까요?(y / n)");
-					String yn = scan.nextLine();
-					if(yn.equals("y") || yn.equals("Y")) {
-						myAccount.remove(high);
-						myAccount.add(high);
-						System.out.println("계좌 덮어쓰기 완료");
-						break;
-					}
-					else if (yn.equals("n") || yn.equals("N")) {
-						System.out.println("기존 계좌를 유지합니다.");
-						break;
-					}
-					else {
-						System.out.println("y 또는 n을 입력하세요.");
-					}
-				}
-				
-			}
+			newAcc = new HighCreditAccount(accNum, myName, myMoney, basicInter, credit);
 		}
 		
-	}// 계좌개설을 위한 함수
+		if(newAcc==null) return; // newAcc가 생성되지 않았을 경우 메서드 종료
+		
+		if(myAccount.add(newAcc)) {
+			System.out.println("계좌개설완료");
+		}
+		else {
+			while(true) {
+				System.out.print("중복계좌발견됨. 덮어쓸까요?(y / n)");
+				String yn = ICustomDefine.scan.nextLine();
+				if(yn.equals("y") || yn.equals("Y")) {
+					myAccount.remove(newAcc);
+					myAccount.add(newAcc);
+					System.out.println("계좌 덮어쓰기 완료");
+					break;
+				}
+				else if (yn.equals("n") || yn.equals("N")) {
+					System.out.println("기존 계좌를 유지합니다.");
+					break;
+				}
+				else {
+					System.out.println("y 또는 n을 입력하세요.");
+				}
+			}
+			
+		} // 중복계좌 처리
+		
+	}// 계좌개설을 위한 메서드
 	
 	public void depositMoney() {
 		System.out.println("계좌번호와 입금할 금액을 입력하세요.");
 		System.out.print("계좌번호: ");
-		String acc = scan.nextLine();
+		String acc = ICustomDefine.scan.nextLine();
 		System.out.print("입금액: ");
-		int money = scan.nextInt();
-		scan.nextLine();
+		int money = ICustomDefine.scan.nextInt();
+		ICustomDefine.scan.nextLine();
 		
 		if(money<0) {
 			System.out.println("양의 정수를 입력하세요.");
@@ -174,10 +156,10 @@ public class AccountManager implements ICustomDefine {
 	public void withdrawMoney() {
 		System.out.println("계좌번호와 출금할 금액을 입력하세요.");
 		System.out.print("계좌번호: ");
-		String acc = scan.nextLine();
+		String acc = ICustomDefine.scan.nextLine();
 		System.out.print("출금액: ");
-		int money = scan.nextInt();
-		scan.nextLine();
+		int money = ICustomDefine.scan.nextInt();
+		ICustomDefine.scan.nextLine();
 		
 		if(money<0) {
 			System.out.println("양의 정수를 입력하세요.");
@@ -220,7 +202,7 @@ public class AccountManager implements ICustomDefine {
 	
 	public void deleteAccount() {
 		System.out.print("삭제할 계좌번호:");
-		String deleteName = scan.nextLine();
+		String deleteName = ICustomDefine.scan.nextLine();
 		//삭제 여부 판단
 		boolean isDelete = false;
 		
@@ -296,7 +278,7 @@ public class AccountManager implements ICustomDefine {
 	
 	public void autoSaveOn(AutoSaver t) {
 		System.out.println("1.자동저장On, 2.자동저장Off");
-		int auto = scan.nextInt();
+		int auto = ICustomDefine.scan.nextInt();
 		if(auto == 1) {
 			if(t.isAlive()) {
 				System.out.println("이미 자동저장이 실행중입니다.");
