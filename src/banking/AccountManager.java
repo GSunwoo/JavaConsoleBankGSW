@@ -29,19 +29,32 @@ public class AccountManager {
 		return null;
 	}
 	
-	public void makeAccount() {
-		int choice = 0;
+	public int choiceOneTwo() {
 		while(true) {
-			System.out.println("***신규계좌개설***");
-			System.out.println("-----계좌선택------");
-			System.out.println("1.보통계좌");
-			System.out.println("2.신용신뢰계좌");
-			System.out.print("선택>> ");
-			choice = ICustomDefine.scan.nextInt();
-			ICustomDefine.scan.nextLine();
-			if (choice == 1 || choice == 2) break;
-			else System.out.println("잘못된 입력입니다.");
-		}
+			try {
+				System.out.print("선택>> ");
+				int choice = ICustomDefine.scan.nextInt();
+				ICustomDefine.scan.nextLine();
+				if(choice!=1 && choice!=2) {
+					throw new OneTwoException();
+				}
+				return choice;
+				
+			} catch (OneTwoException e) {
+				e.printEx();
+			} catch (Exception e) {
+				System.out.println("[예외발생] 정수를 입력하세요.");
+			}	
+		}	
+	}
+	
+	public void makeAccount() {
+		
+		System.out.println("***신규계좌개설***");
+		System.out.println("-----계좌선택------");
+		System.out.println("1.보통계좌");
+		System.out.println("2.신용신뢰계좌");
+		int choice = choiceOneTwo();
 		
 		System.out.print("계좌번호: ");
 		String accNum = ICustomDefine.scan.nextLine();
@@ -285,7 +298,7 @@ public class AccountManager {
 			System.out.println("AutoSaver 예외발생");
 		}
 		System.out.println("1.자동저장On, 2.자동저장Off");
-		int autoOnOff = ICustomDefine.scan.nextInt();
+		int autoOnOff = choiceOneTwo();
 		if(autoOnOff == 1) {
 			if(t==null) {
 				t = new AutoSaver(this);
