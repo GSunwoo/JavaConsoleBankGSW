@@ -88,7 +88,6 @@ public class ThreebyThree {
 			return;
 		}
 		change(p,n);
-		
 	}
 	
 	public void up() {
@@ -188,16 +187,17 @@ public class ThreebyThree {
 				tbt.printTable();
 				if(tbt.checkAnswer()) {
 					System.out.println("정답입니다.");
+					break;
 				}
-				System.out.println("재시작하려면 r, 종료하려면 아무키나 입력하세요");
-				choice = scan.nextLine().toLowerCase();
-				if(choice.equals("r")) {
-					System.out.println("재시작합니다.");
-				}
-				else {
-					System.out.println("게임 종료");
-					System.exit(0);
-				}
+			}
+			System.out.println("재시작하려면 r, 종료하려면 아무키나 입력하세요");
+			String choice = scan.nextLine().toLowerCase();
+			if(choice.equals("r")) {
+				System.out.println("재시작합니다.");
+			}
+			else {
+				System.out.println("게임 종료");
+				System.exit(0);
 			}
 			
 		}
