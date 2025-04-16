@@ -14,7 +14,6 @@ public class AutoSaver extends Thread {
 	@Override
 	public void run() {
 		while(true) {
-			
 			try {
 				sleep(5000);
 				PrintWriter out = new PrintWriter(new FileWriter("src/resource/AutoSaveAccount.txt", false));

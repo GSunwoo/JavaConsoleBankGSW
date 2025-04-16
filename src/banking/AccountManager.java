@@ -141,8 +141,8 @@ public class AccountManager {
 					myAccount.remove(newAcc); // 기존의 계좌와 새로운 계좌가 같다고 판별이 났기 때문에 newAcc로 삭제하면 기존의 계좌가 삭제됨
 					myAccount.add(newAcc); // 새로운 계좌를 set에 추가
 					System.out.println("계좌 덮어쓰기 완료");
-					AccConnection jdbc = new InsertAcc(newAcc);
-					jdbc.dbExecute();
+					//AccConnection jdbc = new InsertAcc(newAcc);
+					//jdbc.dbExecute();
 					break;
 				} // y를 선택할 경우 기존 계좌를 삭제한 다음 새로운 계좌 추가
 				else if (yn.equals("n") || yn.equals("N")) {
@@ -182,8 +182,8 @@ public class AccountManager {
 			nowAcc.getNewBalance(money); // 변화금액 계산
 			System.out.println(money+"원 입금이 완료되었습니다.");
 			System.out.println("현재 잔고> " + nowAcc.getMyMoney());
-			UpdateAcc jdbc = new UpdateAcc(nowAcc);
-			jdbc.dbExecute();
+			//UpdateAcc jdbc = new UpdateAcc(nowAcc);
+			//jdbc.dbExecute();
 		}
 		else {
 			System.out.println(acc + " 계좌가 없습니다.");
@@ -230,8 +230,8 @@ public class AccountManager {
 			nowAcc.setMyMoney(nowAcc.getMyMoney() - money);
 			System.out.println(money + "원 출금이 완료되었습니다.");
 			System.out.println("현재 잔고> " + nowAcc.getMyMoney());
-			UpdateAcc jdbc = new UpdateAcc(nowAcc);
-			jdbc.dbExecute();
+			//UpdateAcc jdbc = new UpdateAcc(nowAcc);
+			//jdbc.dbExecute();
 		}
 		else {
 			System.out.println(acc + " 계좌가 없습니다.");
@@ -239,6 +239,11 @@ public class AccountManager {
 	}// 출금
 	
 	public void showAccInfo() {
+		if(myAccount.isEmpty()) {
+			System.out.println("출력할 내용이 없습니다.");
+			return;
+		}
+			
 		Iterator itr = myAccount.iterator();
 		while(itr.hasNext()) {
 			System.out.println("-----------------------------");
@@ -249,19 +254,17 @@ public class AccountManager {
 			System.out.println("-----------------------------");
 		}
 		System.out.println("전체 계좌 정보가 출력되었습니다");
-		System.out.println("-----------------------------");
-		SelectAllAcc jdbc = new SelectAllAcc(null);
-		jdbc.dbExecute();
-		System.out.println("-----------------------------");
+		//SelectAllAcc jdbc = new SelectAllAcc(null);
+		//jdbc.dbExecute();
 	}// 전체계좌정보출력
 	
-	public void searchAccInfo() {
-		System.out.print("검색할 계좌번호: ");
-		String searchName = ICustomDefine.scan.nextLine();
-		Account acc = searchAccount(searchName);
-		SelectAcc jdbc = new SelectAcc(acc);
-		jdbc.dbExecute();
-	} // 계좌검색
+//	public void searchAccInfo() {
+//		System.out.print("검색할 계좌번호: ");
+//		String searchName = ICustomDefine.scan.nextLine();
+//		Account acc = searchAccount(searchName);
+//		SelectAcc jdbc = new SelectAcc(acc);
+//		jdbc.dbExecute();
+//	} // 계좌검색
 	
 	public void deleteAccount() {
 		System.out.print("삭제할 계좌번호:");
@@ -272,8 +275,8 @@ public class AccountManager {
 		for(Account acc : myAccount) {
 			// 계좌번호를 기준으로 판단
 			if(deleteName.equals(acc.getAccountNum())) {
-				DeleteAcc jdbc = new DeleteAcc(searchAccount(deleteName));
-				jdbc.dbExecute();
+				//DeleteAcc jdbc = new DeleteAcc(searchAccount(deleteName));
+				//jdbc.dbExecute();
 				myAccount.remove(acc);
 				isDelete = true;
 				break;
