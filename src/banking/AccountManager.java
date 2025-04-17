@@ -59,7 +59,6 @@ public class AccountManager {
 	}
 	
 	public void makeAccount() {
-		
 		System.out.println("***신규계좌개설***");
 		System.out.println("-----계좌선택------");
 		System.out.println("1.보통계좌");
@@ -100,7 +99,7 @@ public class AccountManager {
 			else {
 				newAcc = new NormalAccount(accNum, myName, myMoney, basicInter);
 			}
-		}
+		}// choice-1
 		else if(choice==2) {
 			char credit = 'F';
 			while(true) {
@@ -122,16 +121,15 @@ public class AccountManager {
 					System.out.println(crdStr + "등급은 존재하지 않습니다.");
 				}
 			}			
-			
 			newAcc = new HighCreditAccount(accNum, myName, myMoney, basicInter, credit);
-		}
+		}// choice-2
 		
 		if(newAcc==null) return; // newAcc가 생성되지 않았을 경우 메서드 종료
 		
 		if(myAccount.add(newAcc)) { // 성공했을 경우 개설 완료 메세지
 			System.out.println("계좌개설완료");
-			InsertAcc jdbc = new InsertAcc(newAcc);
-			jdbc.dbExecute();
+			//InsertAcc jdbc = new InsertAcc(newAcc);
+			//jdbc.dbExecute();
 		}
 		else { // 실패의 경우 중복이 있다고 판단
 			while(true) {
@@ -152,44 +150,45 @@ public class AccountManager {
 				else {
 					System.out.println("y 또는 n을 입력하세요.");
 				} // 잘못된 입력의 경우 while을 벗어나지 못함
-			}
-			
+			} 
 		} // 중복계좌 처리
-		
 	}// 계좌개설을 위한 메서드
 	
 	public void depositMoney() {
-		System.out.println("계좌번호와 입금할 금액을 입력하세요.");
-		System.out.print("계좌번호: ");
-		String acc = ICustomDefine.scan.nextLine();
-		System.out.print("입금액: ");
-		int money = ICustomDefine.scan.nextInt();
-		ICustomDefine.scan.nextLine();
-		
-		if(money<0) {
-			System.out.println("양의 정수를 입력하세요.");
-			return;
+		try {
+			System.out.println("계좌번호와 입금할 금액을 입력하세요.");
+			System.out.print("계좌번호: ");
+			String acc = ICustomDefine.scan.nextLine();
+			System.out.print("입금액: ");
+			int money = ICustomDefine.scan.nextInt();
+			ICustomDefine.scan.nextLine();
+			
+			if(money<0) {
+				System.out.println("양의 정수를 입력하세요.");
+				return;
+			}
+			
+			if(money%500!=0 || money == 0) {
+				System.out.println("500원 단위로 입금가능합니다.");
+				return;
+			}
+			
+			Account nowAcc = searchAccount(acc); // 계좌 검색
+			
+			if(nowAcc!=null) {	// 계좌검색 성공
+				nowAcc.getNewBalance(money); // 변화금액 계산
+				System.out.println(money+"원 입금이 완료되었습니다.");
+				System.out.println("현재 잔고> " + nowAcc.getMyMoney());
+				//UpdateAcc jdbc = new UpdateAcc(nowAcc);
+				//jdbc.dbExecute();
+			}
+			else {
+				System.out.println(acc + " 계좌가 없습니다.");
+				return;
+			}
+		} catch (Exception e) {
+			System.out.println("[예외발생] 잘못된 입력입니다.");
 		}
-		
-		if(money%500!=0 || money == 0) {
-			System.out.println("500원 단위로 입금가능합니다.");
-			return;
-		}
-		
-		Account nowAcc = searchAccount(acc); // 계좌 검색
-		
-		if(nowAcc!=null) {	// 계좌검색 성공
-			nowAcc.getNewBalance(money); // 변화금액 계산
-			System.out.println(money+"원 입금이 완료되었습니다.");
-			System.out.println("현재 잔고> " + nowAcc.getMyMoney());
-			//UpdateAcc jdbc = new UpdateAcc(nowAcc);
-			//jdbc.dbExecute();
-		}
-		else {
-			System.out.println(acc + " 계좌가 없습니다.");
-			return;
-		}
-		
 	}// 입금
 	
 	public void withdrawMoney() {
