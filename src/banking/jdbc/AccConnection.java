@@ -15,7 +15,6 @@ import banking.Account;
 또한 용어도 '상속'이 아닌 '구현'이라 표현한다.
  */
 public class AccConnection implements IConnect{
-	
 	// 멤버변수
 	public Connection con; 		   // DB연결
 	public ResultSet rs; 		   // select의 실행결과 반환

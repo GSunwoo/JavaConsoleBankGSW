@@ -9,6 +9,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.util.HashSet;
+import java.util.InputMismatchException;
 import java.util.Iterator;
 
 import banking.jdbc.AccConnection;
@@ -186,55 +187,62 @@ public class AccountManager {
 				System.out.println(acc + " 계좌가 없습니다.");
 				return;
 			}
-		} catch (Exception e) {
+		} catch (InputMismatchException e) {
 			System.out.println("[예외발생] 잘못된 입력입니다.");
+			ICustomDefine.scan.nextLine();
 		}
 	}// 입금
 	
 	public void withdrawMoney() {
-		System.out.println("계좌번호와 출금할 금액을 입력하세요.");
-		System.out.print("계좌번호: ");
-		String acc = ICustomDefine.scan.nextLine();
-		System.out.print("출금액: ");
-		int money = ICustomDefine.scan.nextInt();
-		ICustomDefine.scan.nextLine();
-		
-		if(money<0) {
-			System.out.println("양의 정수를 입력하세요.");
-			return;
-		} // 음수 출금 불가능
-		
-		if(money%1000!=0 || money == 0) { 
-			System.out.println("1000원 단위로 출금가능합니다.");
-			return;
-		} // 1000원 단위 출금
-		
-		Account nowAcc = searchAccount(acc);
-		
-		if(nowAcc!=null) { // 계좌검색 성공
-			if((nowAcc.getMyMoney()-money)<0) {
-				System.out.println("잔고가 부족합니다. 잔액을 모두 출금하시겠습니까?");
-				System.out.println("1.Yes 2. No");
-				int choice = choiceOneTwo();
-				if(choice == 1) {
-					System.out.println("남은 금액을 모두 출금합니다.");
-					money = nowAcc.getMyMoney();
+		try {
+			System.out.println("계좌번호와 출금할 금액을 입력하세요.");
+			System.out.print("계좌번호: ");
+			String acc = ICustomDefine.scan.nextLine();
+			System.out.print("출금액: ");
+			int money = ICustomDefine.scan.nextInt();
+			ICustomDefine.scan.nextLine();
+			
+			if(money<0) {
+				System.out.println("양의 정수를 입력하세요.");
+				return;
+			} // 음수 출금 불가능
+			
+			if(money%1000!=0 || money == 0) { 
+				System.out.println("1000원 단위로 출금가능합니다.");
+				return;
+			} // 1000원 단위 출금
+			
+			Account nowAcc = searchAccount(acc);
+			
+			if(nowAcc!=null) { // 계좌검색 성공
+				if((nowAcc.getMyMoney()-money)<0) {
+					System.out.println("잔고가 부족합니다. 잔액을 모두 출금하시겠습니까?");
+					System.out.println("1.Yes 2. No");
+					int choice = choiceOneTwo();
+					if(choice == 1) {
+						System.out.println("남은 금액을 모두 출금합니다.");
+						money = nowAcc.getMyMoney();
+					}
+					else if(choice == 2) {
+						System.out.println("출금을 취소합니다.");
+						return;
+					}
+					
 				}
-				else if(choice == 2) {
-					System.out.println("출금을 취소합니다.");
-					return;
-				}
-				
+				nowAcc.setMyMoney(nowAcc.getMyMoney() - money);
+				System.out.println(money + "원 출금이 완료되었습니다.");
+				System.out.println("현재 잔고> " + nowAcc.getMyMoney());
+				//UpdateAcc jdbc = new UpdateAcc(nowAcc);
+				//jdbc.dbExecute();
 			}
-			nowAcc.setMyMoney(nowAcc.getMyMoney() - money);
-			System.out.println(money + "원 출금이 완료되었습니다.");
-			System.out.println("현재 잔고> " + nowAcc.getMyMoney());
-			//UpdateAcc jdbc = new UpdateAcc(nowAcc);
-			//jdbc.dbExecute();
+			else {
+				System.out.println(acc + " 계좌가 없습니다.");
+			}
+		} catch (InputMismatchException e) {
+			System.out.println("[예외발생] 잘못된 입력입니다.");
+			ICustomDefine.scan.nextLine();
 		}
-		else {
-			System.out.println(acc + " 계좌가 없습니다.");
-		}
+		
 	}// 출금
 	
 	public void showAccInfo() {
