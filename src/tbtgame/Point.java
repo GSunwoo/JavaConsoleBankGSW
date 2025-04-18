@@ -1,5 +1,7 @@
 package tbtgame;
 
+import java.util.Objects;
+
 public class Point {
 	int x;
 	int y;
@@ -34,6 +36,17 @@ public class Point {
 
 	public void setVal(String val) {
 		this.val = val;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(x, y);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		Point other = (Point) obj;
+		return this.x == other.getX() && this.y == other.getY();
 	}
 	
 }

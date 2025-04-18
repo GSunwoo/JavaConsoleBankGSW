@@ -63,11 +63,9 @@ public class ThreebyThree {
 	}
 	
 	public void change(Point x, Point num) {
-		Point temp = new Point(x.getX(), x.getY(), x.getVal());
-		x.setX(num.getX());
-		x.setY(num.getY());
-		num.setX(temp.getX());
-		num.setY(temp.getY());
+		String temp = x.getVal();
+		x.setVal(num.getVal());
+		num.setVal(temp);
 	}
 	
 	public void left() {
