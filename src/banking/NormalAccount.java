@@ -24,7 +24,7 @@ public class NormalAccount extends Account {
 	} // 이율 계산
 	
 	@Override
-	public void getNewBalance(int money) {
+	public void deposit(int money) {
 		double newBDouble = this.getCalInter()*super.getMyMoney() + money;
 		int newBalance = (int) newBDouble;
 		super.setMyMoney(newBalance);

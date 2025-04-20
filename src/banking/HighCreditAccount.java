@@ -22,7 +22,7 @@ public class HighCreditAccount extends Account {
 	} // 계좌정보 출력
 	
 	@Override
-	public void getNewBalance(int money) {
+	public void deposit(int money) {
 		double newBDouble = this.getCalInter()*super.getMyMoney() + money;
 		int newBalance = (int) newBDouble;
 		super.setMyMoney(newBalance);

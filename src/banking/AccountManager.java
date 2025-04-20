@@ -177,7 +177,7 @@ public class AccountManager {
 			Account nowAcc = searchAccount(acc); // 계좌 검색
 			
 			if(nowAcc!=null) {	// 계좌검색 성공
-				nowAcc.getNewBalance(money); // 변화금액 계산
+				nowAcc.deposit(money); // 변화금액 계산
 				System.out.println(money+"원 입금이 완료되었습니다.");
 				System.out.println("현재 잔고> " + nowAcc.getMyMoney());
 				//UpdateAcc jdbc = new UpdateAcc(nowAcc);
@@ -315,7 +315,7 @@ public class AccountManager {
 		}
 	} // obj 파일로 데이터 보내기
 	
-	public void loadAccount() {
+	public void loadAccount() {       
 		try {
 			ObjectInputStream in = new ObjectInputStream
 					(new FileInputStream("src/resource/AccountInfo.obj"));

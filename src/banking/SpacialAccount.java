@@ -1,7 +1,7 @@
 package banking;
 
 public class SpacialAccount extends NormalAccount{
-	int dopositNum;
+	private int dopositNum;
 	
 	public SpacialAccount(String accountNum, String name, int myMoney, int inter) {
 		super(accountNum, name, myMoney, inter);
@@ -9,11 +9,11 @@ public class SpacialAccount extends NormalAccount{
 	}
 	
 	@Override
-	public void getNewBalance(int money) {
+	public void deposit(int money) {
 		this.dopositNum++; // 입금 횟수 증가
 		double newBDouble = getCalInter()*getMyMoney() + money;
 		int newBalance = (int) newBDouble;
-		System.out.println(dopositNum + "회차 입금입니다.");
+		System.out.println(this.dopositNum + "회차 입금입니다.");
 		if(this.dopositNum%2==0) {
 			newBalance += 500;
 			System.out.println("축하금 500원 지급");
