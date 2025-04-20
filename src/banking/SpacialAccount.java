@@ -18,7 +18,7 @@ public class SpacialAccount extends NormalAccount{
 			newBalance += 500;
 			System.out.println("축하금 500원 지급");
 		}		
-		setMyMoney(newBalance);
+		setMyMoney(newBalance);   
 	} // 입금 후 금액 계산
 	
 	@Override
