@@ -30,15 +30,16 @@ public class UpdateAcc extends AccConnection {
 			
 			stmt = con.createStatement();
 			
-			String query = "select balance, interestRate from banking1 where accNum=" + accNum;
+			String query = "select balance, interestRate from banking1 where accNum= '" 
+										+ accNum + "'";
 			
 			//쿼리문을 실행한 후 결과는 ResultSet으로 반환 
 			rs = stmt.executeQuery(query);
 			
 			rs.next();
 			
-			int balance = Integer.parseInt(rs.getString("balance"));
-			int inter = Integer.parseInt(rs.getString("interestRate"));
+			int balance = rs.getInt("balance");
+			int inter = rs.getInt("interestRate");
 			
 			if(mod == ICustomDefine.DEPOSIT) {
 				double temp = money + balance*(1+inter*0.01);

@@ -16,7 +16,7 @@ public class SelectAcc extends AccConnection{
 		try {
 			stmt = con.createStatement();
 			
-			query = "select * from banking1 where accNum=" + inputValue("검색할 계좌");
+			query = "select * from banking1 where accNum= '" + inputValue("검색할 계좌")+"'";
 			
 			//쿼리문을 실행한 후 결과는 ResultSet으로 반환 
 			rs = stmt.executeQuery(query);

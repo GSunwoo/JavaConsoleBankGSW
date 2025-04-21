@@ -26,7 +26,8 @@ public class BankingSystemMain {
 		System.out.println("3.출금");
 		System.out.println("4.전체계좌정보출력");
 		System.out.println("5.검색계좌정보출력");
-		System.out.println("6.프로그램종료");
+		System.out.println("6.계좌삭제");
+		System.out.println("7.프로그램종료");
 	}
  
 	// 계좌개설을 위한 함수
@@ -57,7 +58,12 @@ public class BankingSystemMain {
 		jdbc.dbExecute();
 		
 		System.out.println("**전체계좌정보가 출력됨**");
-	}  
+	} 
+	
+	public static void deleteAcc() {
+		DeleteAcc jdbc = new DeleteAcc();
+		jdbc.dbExecute();
+	}
 
 	public static void main(String[] args) {
 	
@@ -92,6 +98,11 @@ public class BankingSystemMain {
 				//계좌정보출력
 				System.out.println("검색계좌정보출력");
 				showSearchAccInfo();
+				break;
+			case ICustomDefine.DELETE: 
+				//프로그램종료
+				System.out.println("계좌 삭제");
+				deleteAcc();
 				break;
 			case ICustomDefine.EXIT: 
 				//프로그램종료
